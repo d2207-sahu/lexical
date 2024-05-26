@@ -1,4 +1,8 @@
 import {
+  faAlignCenter,
+  faAlignJustify,
+  faAlignLeft,
+  faAlignRight,
   faBold,
   faHeading,
   faItalic,
@@ -15,7 +19,6 @@ import {
   $isRangeSelection,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
-  createCommand,
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   REDO_COMMAND,
@@ -23,11 +26,19 @@ import {
   UNDO_COMMAND,
 } from "lexical";
 import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  DIVYANSHUHEADING1,
+  DIVYANSHUHEADING2,
+  DIVYANSHUHEADING3,
+  DIVYANSHUHEADING4,
+  DIVYANSHUHEADING5,
+  DIVYANSHUHEADING6,
+} from "../Commands/HeadingCommands";
 
 const LowPriority = 1;
 
 function Divider() {
-  return <hr></hr>;
+  return <hr className="border-blue-900 "></hr>;
 }
 
 export default function ToolbarPlugin() {
@@ -35,22 +46,11 @@ export default function ToolbarPlugin() {
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-  const [isBold, setIsBold] = useState(false);
-  const [isItalic, setIsItalic] = useState(false);
-  const [isUnderline, setIsUnderline] = useState(false);
-  const [isStrikethrough, setIsStrikethrough] = useState(false);
-  const DIVYANSHUHEADING1 = createCommand<string>();
-  const DIVYANSHUHEADING2 = createCommand<string>();
-  const DIVYANSHUHEADING3 = createCommand<string>();
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
-      // Update text format
-      setIsBold(selection.hasFormat("bold"));
-      setIsItalic(selection.hasFormat("italic"));
-      setIsUnderline(selection.hasFormat("underline"));
-      setIsStrikethrough(selection.hasFormat("strikethrough"));
+      // update here
     }
   }, []);
 
@@ -67,6 +67,7 @@ export default function ToolbarPlugin() {
       editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           $updateToolbar();
+          $updateHeadings("h1");
         });
       }),
       editor.registerCommand(
@@ -95,6 +96,30 @@ export default function ToolbarPlugin() {
       ),
       editor.registerCommand(
         DIVYANSHUHEADING3,
+        (_payload: HeadingTagType, _newEditor) => {
+          $updateHeadings(_payload);
+          return false;
+        },
+        LowPriority
+      ),
+      editor.registerCommand(
+        DIVYANSHUHEADING4,
+        (_payload: HeadingTagType, _newEditor) => {
+          $updateHeadings(_payload);
+          return false;
+        },
+        LowPriority
+      ),
+      editor.registerCommand(
+        DIVYANSHUHEADING5,
+        (_payload: HeadingTagType, _newEditor) => {
+          $updateHeadings(_payload);
+          return false;
+        },
+        LowPriority
+      ),
+      editor.registerCommand(
+        DIVYANSHUHEADING6,
         (_payload: HeadingTagType, _newEditor) => {
           $updateHeadings(_payload);
           return false;
@@ -135,7 +160,7 @@ export default function ToolbarPlugin() {
         onClick={() => {
           editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
-        className="toolbar-item spaced"
+        className="p-2 px-4 m-2 "
         aria-label="Undo"
       >
         UNDO
@@ -145,7 +170,7 @@ export default function ToolbarPlugin() {
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND, undefined);
         }}
-        className="toolbar-item"
+        className="p-2 px-4 m-2 "
         aria-label="Redo"
       >
         REDO
@@ -155,7 +180,7 @@ export default function ToolbarPlugin() {
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
         }}
-        className={"toolbar-item spaced " + (isBold ? "active" : "")}
+        className="p-2 px-4 m-2 "
         aria-label="Format Bold"
       >
         <FontAwesomeIcon icon={faBold} />
@@ -164,7 +189,7 @@ export default function ToolbarPlugin() {
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
         }}
-        className={"toolbar-item spaced " + (isItalic ? "active" : "")}
+        className="p-2 px-4 m-2 "
         aria-label="Format Italics"
       >
         <FontAwesomeIcon icon={faItalic} />
@@ -173,7 +198,7 @@ export default function ToolbarPlugin() {
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
         }}
-        className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
+        className="p-2 px-4 m-2 "
         aria-label="Format Underline"
       >
         <FontAwesomeIcon icon={faUnderline} />
@@ -182,77 +207,102 @@ export default function ToolbarPlugin() {
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
         }}
-        className={
-          "toolbar-item spaced " + (isStrikethrough ? "hover:[text-pink]" : "")
-        }
+        className="p-2 px-4 m-2 "
         aria-label="Format Strikethrough"
       >
         <FontAwesomeIcon icon={faStrikethrough} />
       </button>
-      <hr></hr>
+      <Divider />
       <button
         onClick={() => {
           editor.dispatchCommand(DIVYANSHUHEADING1, "h1");
         }}
-        className="toolbar-item spaced"
+        className="p-2 px-4 m-2 "
         aria-label="Left Align"
       >
-        <FontAwesomeIcon icon={faHeading} />
+        <FontAwesomeIcon icon={faHeading} /> 1
       </button>
       <button
         onClick={() => {
           editor.dispatchCommand(DIVYANSHUHEADING2, "h2");
         }}
-        className="toolbar-item spaced"
+        className="p-2 px-4 m-2 "
         aria-label="Left Align"
       >
-        H2
+        <FontAwesomeIcon icon={faHeading} /> 2
       </button>
       <button
         onClick={() => {
           editor.dispatchCommand(DIVYANSHUHEADING3, "h3");
         }}
-        className="toolbar-item spaced"
+        className="p-2 px-4 m-2 "
         aria-label="Left Align"
       >
-        H3
+        <FontAwesomeIcon icon={faHeading} /> 3
       </button>
-      <hr></hr>
+      <button
+        onClick={() => {
+          editor.dispatchCommand(DIVYANSHUHEADING4, "h4");
+        }}
+        className="p-2 px-4 m-2 "
+        aria-label="Left Align"
+      >
+        <FontAwesomeIcon icon={faHeading} /> 4
+      </button>
+      <button
+        onClick={() => {
+          editor.dispatchCommand(DIVYANSHUHEADING5, "h5");
+        }}
+        className="p-2 px-4 m-2 "
+        aria-label="Left Align"
+      >
+        <FontAwesomeIcon icon={faHeading} /> 5
+      </button>
+      <button
+        onClick={() => {
+          editor.dispatchCommand(DIVYANSHUHEADING6, "h6");
+        }}
+        className="p-2 px-4 m-2 "
+        aria-label="Left Align"
+      >
+        <FontAwesomeIcon icon={faHeading} /> 6
+      </button>
+      <Divider />
       <button
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
         }}
-        className="toolbar-item spaced"
+        className="p-2 px-4 m-2 "
         aria-label="Left Align"
       >
-        <i className="format left-align" />
+        <FontAwesomeIcon icon={faAlignLeft} />
       </button>
       <button
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
         }}
-        className="toolbar-item spaced"
+        className="p-2 px-4 m-2 "
         aria-label="Center Align"
       >
-        <i className="format center-align" />
+        <FontAwesomeIcon icon={faAlignCenter} />
       </button>
       <button
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
         }}
-        className="toolbar-item spaced"
+        className="p-2 px-4 m-2 "
         aria-label="Right Align"
       >
-        <i className="format right-align" />
+        <FontAwesomeIcon icon={faAlignRight} />
       </button>
       <button
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
         }}
-        className="toolbar-item"
+        className="p-2 px-4 m-2 "
         aria-label="Justify Align"
       >
-        <i className="format justify-align" />
+        <FontAwesomeIcon icon={faAlignJustify} />
       </button>{" "}
     </div>
   );

@@ -1,34 +1,41 @@
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import {
+  InitialConfigType,
+  LexicalComposer,
+} from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode } from "@lexical/rich-text";
-import { EditorState } from "lexical";
+import { EditorState, EditorThemeClasses } from "lexical";
 import ToolbarPlugin from "./Plugins/ToolbarPlugin";
 import TreeViewPlugin from "./Plugins/TreeViewPlugin";
 
-const theme = {
-  // Theme styling goes here
-  //...
+const theme: EditorThemeClasses = {
   heading: {
-    h1: "text-4xl font-bold text-blue-500", // Tailwind CSS classes for h1
-    h2: "text-3xl font-bold text-blue-400", // Tailwind CSS classes for h1
-    h3: "text-2xl font-bold text-blue-300", // Tailwind CSS classes for h1
+    h1: "text-4xl font-bold text-blue-300",
+    h2: "text-3xl font-bold text-blue-400",
+    h3: "text-2xl font-bold text-blue-500",
+    h4: "text-xl font-bold text-blue-600",
+    h5: "text-lg font-bold text-blue-700",
+    h6: "text-sm font-bold text-blue-800",
+  },
+  text: {
+    bold: "font-bold",
+    italic: "italic",
+    underline: "underline",
+    strikethrough: "line-through",
   },
 };
 
-// Catch any errors that occur during Lexical updates and log them
-// or throw them as needed. If you don't throw them, Lexical will
-// try to recover gracefully without losing user data.
 function onError(error: any) {
   console.error(error);
 }
 
 function Editor() {
-  const initialConfig = {
+  const initialConfig: InitialConfigType = {
     namespace: "Divyanshu Editor",
     theme,
     nodes: [HeadingNode],
