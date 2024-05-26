@@ -1,3 +1,11 @@
+import {
+  faBold,
+  faHeading,
+  faItalic,
+  faStrikethrough,
+  faUnderline,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $createHeadingNode, HeadingTagType } from "@lexical/rich-text";
 import { $wrapNodes } from "@lexical/selection";
@@ -19,7 +27,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 const LowPriority = 1;
 
 function Divider() {
-  return <div className="divider" />;
+  return <hr></hr>;
 }
 
 export default function ToolbarPlugin() {
@@ -118,7 +126,7 @@ export default function ToolbarPlugin() {
         LowPriority
       )
     );
-  }, [editor, $updateToolbar]);
+  }, [editor, $updateToolbar, $updateHeadings]);
 
   return (
     <div className="toolbar" ref={toolbarRef}>
@@ -150,7 +158,7 @@ export default function ToolbarPlugin() {
         className={"toolbar-item spaced " + (isBold ? "active" : "")}
         aria-label="Format Bold"
       >
-        B
+        <FontAwesomeIcon icon={faBold} />
       </button>
       <button
         onClick={() => {
@@ -159,7 +167,7 @@ export default function ToolbarPlugin() {
         className={"toolbar-item spaced " + (isItalic ? "active" : "")}
         aria-label="Format Italics"
       >
-        i
+        <FontAwesomeIcon icon={faItalic} />
       </button>
       <button
         onClick={() => {
@@ -168,7 +176,7 @@ export default function ToolbarPlugin() {
         className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
         aria-label="Format Underline"
       >
-        UnderLine
+        <FontAwesomeIcon icon={faUnderline} />
       </button>
       <button
         onClick={() => {
@@ -179,7 +187,7 @@ export default function ToolbarPlugin() {
         }
         aria-label="Format Strikethrough"
       >
-        strikethrough
+        <FontAwesomeIcon icon={faStrikethrough} />
       </button>
       <hr></hr>
       <button
@@ -189,7 +197,7 @@ export default function ToolbarPlugin() {
         className="toolbar-item spaced"
         aria-label="Left Align"
       >
-        H1
+        <FontAwesomeIcon icon={faHeading} />
       </button>
       <button
         onClick={() => {
